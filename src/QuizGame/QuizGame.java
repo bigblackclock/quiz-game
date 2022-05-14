@@ -3,17 +3,11 @@ package QuizGame;
 public interface QuizGame {
     int MAX_TRIES = 3;
 
-    /**
-     * Load Questions from assets into memory
-     *
-     * @throw LoadingException on JSON Parse error,
-     * empty array or IO error
-     */
-    Questions[] loadQuestions() throws LoadingException;
+    void startGame() throws LoadingException;
 
-    Questions getRandomQuestions();
+    void askQuestion() throws GameException;
 
-    void answerQuestion(int answerIndex);
+    void answerQuestion(Questions question);
 
     int getScore();
 
