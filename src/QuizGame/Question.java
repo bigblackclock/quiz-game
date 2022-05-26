@@ -3,10 +3,10 @@ package QuizGame;
 
 import java.util.Arrays;
 
-public class Questions {
+public class Question {
 
 
-    public Questions(int id, String text, String[] answers, int correctIndex, Category category) {
+    public Question(int id, String text, String[] answers, int correctIndex, Category category) {
         this.id = id;
         this.text = text;
         this.answers = answers;
@@ -28,11 +28,11 @@ public class Questions {
 
     public String getAnswers() {
 
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < answers.length; i++) {
-            s = s + (i + 1) + "- " + answers[i] + "   ";
+            s.append(i + 1).append("- ").append(answers[i]).append("   ");
         }
-        return s;
+        return s.toString();
     }
 
     public int getCorrectIndex() {
@@ -44,7 +44,7 @@ public class Questions {
     }
 
     public boolean isAnswerCorrect(String answer) {
-        return answers[correctIndex] == answer;
+        return answers[correctIndex].equals(answer);
     }
 
     @Override

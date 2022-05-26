@@ -9,5 +9,5 @@ public interface QuestionsLoader {
      * @throw LoadingException on JSON Parse error,
      * empty array or IO error
      */
-    ArrayList<Questions> loadQuestions() throws LoadingException;
+    ArrayList<Question> loadQuestions() throws LoadingException;
 }

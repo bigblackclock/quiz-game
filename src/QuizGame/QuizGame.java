@@ -7,7 +7,7 @@ public interface QuizGame {
 
     void askQuestion() throws GameException;
 
-    void answerQuestion(Questions question);
+    void answerQuestion(Question question);
 
     int getScore();
 

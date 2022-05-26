@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
-    private ArrayList<Questions> questions;
+    private ArrayList<Question> questions;
     private boolean isGameFinished = false;
     private int score = 0;
 
@@ -24,12 +24,12 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
 
     }
 
-    private Questions getRandomQuestions() throws GameException {
+    private Question getRandomQuestions() throws GameException {
         try {
             Random rand = new Random();
 
             int n = rand.nextInt(questions.size());
-            Questions question = questions.get(n);
+            Question question = questions.get(n);
             questions.remove(n);
             return question;
         } catch (Exception err) {
@@ -42,7 +42,7 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
     @Override
     public void askQuestion() throws GameException {
 
-        Questions question = getRandomQuestions();
+        Question question = getRandomQuestions();
         System.out.println(question.getText());
         System.out.println(question.getAnswers());
         answerQuestion(question);
@@ -50,7 +50,7 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
     }
 
     @Override
-    public void answerQuestion(Questions question) {
+    public void answerQuestion(Question question) {
         System.out.println("Your answer:");
 
         boolean answered = false;
