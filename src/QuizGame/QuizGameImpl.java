@@ -1,18 +1,23 @@
 package QuizGame;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
+    static private final List<Integer> AllowedInput = Arrays.asList(1, 2, 3);
+
     private ArrayList<Question> questions;
     private boolean isGameFinished = false;
     private int score = 0;
 
 
     @Override
-    public void startGame() throws LoadingException {
-        this.questions = loadQuestions();
+    public void startGame() {
+        try {
+            this.questions = loadQuestions();
+        } catch (LoadingException e) {
+            System.out.println(e.getMessage());
+
+        }
         while (!isGameFinished()) {
             try {
                 askQuestion();
@@ -57,8 +62,11 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
             try {
                 Scanner scanner = new Scanner(System.in);
 
-                int answer = scanner.nextInt();
-                int answerIndex = answer - 1;
+                int input = (scanner.nextInt());
+                int answerIndex = input - 1;
+
+                boolean isInputAllowed = AllowedInput.contains(input);
+                if (!isInputAllowed) throw new Exception("Input is now allowed");
                 boolean isCorrect = question.getCorrectIndex() == answerIndex;
                 if (isCorrect) {
                     System.out.println("Correct ✔");
@@ -70,7 +78,7 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
                 }
                 answered = true;
             } catch (Exception err) {
-                System.out.println("invalid answer");
+                System.out.println("invalid input, try again");
             }
         }
 
