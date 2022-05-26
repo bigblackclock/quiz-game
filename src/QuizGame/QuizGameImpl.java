@@ -21,22 +21,21 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
             }
 
         }
+        System.out.println("Your total score is: " + score);
 
     }
 
     private Question getRandomQuestions() throws GameException {
-        try {
-            Random rand = new Random();
-
-            int n = rand.nextInt(questions.size());
-            Question question = questions.get(n);
-            questions.remove(n);
-            return question;
-        } catch (Exception err) {
+        if (questions.isEmpty()) {
             isGameFinished = true;
-
-            throw new GameException("no more Questions");
+            throw new GameException("No more Questions");
         }
+        Random rand = new Random();
+
+        int n = rand.nextInt(questions.size());
+        Question question = questions.get(n);
+        questions.remove(n);
+        return question;
     }
 
     @Override
@@ -60,13 +59,13 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
 
                 int answer = scanner.nextInt();
                 int answerIndex = answer - 1;
-                boolean isCorrect = question.getCorrectIndex() == (answerIndex - 1);
+                boolean isCorrect = question.getCorrectIndex() == answerIndex;
                 if (isCorrect) {
                     System.out.println("Correct ✔");
                     score++;
 
                 } else {
-                    System.out.println("Wrong ❌");
+                    System.out.println("Wrong ❌, Correct answer is: " + question.getCorrectAnswer());
 
                 }
                 answered = true;

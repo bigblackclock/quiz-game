@@ -1,5 +1,5 @@
 package QuizGame;
 
 public enum Category {
-    IT,Physics,geography,
+    IT,Physics,General_Knowledge
 }

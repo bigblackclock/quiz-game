@@ -25,7 +25,6 @@ public class Question {
     }
 
 
-
     public String getAnswers() {
 
         StringBuilder s = new StringBuilder();
@@ -45,6 +44,10 @@ public class Question {
 
     public boolean isAnswerCorrect(String answer) {
         return answers[correctIndex].equals(answer);
+    }
+
+    public String getCorrectAnswer() {
+        return answers[correctIndex];
     }
 
     @Override
