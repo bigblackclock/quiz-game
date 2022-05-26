@@ -8,6 +8,7 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
     private ArrayList<Question> questions;
     private boolean isGameFinished = false;
     private int score = 0;
+    private int wrongTries = 0;
 
 
     @Override
@@ -74,6 +75,12 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
 
                 } else {
                     System.out.println("Wrong ❌, Correct answer is: " + question.getCorrectAnswer());
+                    wrongTries++;
+                    if (wrongTries == MAX_TRIES) {
+                        System.out.println("No more Lives :(");
+
+                        isGameFinished = true;
+                    }
 
                 }
                 answered = true;
