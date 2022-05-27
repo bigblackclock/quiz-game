@@ -3,7 +3,6 @@ package QuizGame;
 import java.util.*;
 
 public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
-    static private final List<Integer> AllowedInput = Arrays.asList(1, 2, 3);
 
     private ArrayList<Question> questions;
     private boolean isGameFinished = false;
@@ -14,30 +13,34 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
     @Override
     public void startGame() {
         try {
-            this.questions = loadQuestions();
+            loadQuestions();
+            while (!isGameFinished()) {
+                if (questions.isEmpty()) {
+                    isGameFinished = true;
+
+                } else {
+                    Question question = askQuestion();
+                    answerQuestion(question);
+                }
+
+
+            }
+            System.out.println("Your total score is: " + score);
         } catch (LoadingException e) {
             System.out.println(e.getMessage());
 
         }
-        while (!isGameFinished()) {
-            try {
-                askQuestion();
-            } catch (GameException e) {
-                System.out.println(e.getMessage());
-            }
 
-        }
-        System.out.println("Your total score is: " + score);
 
     }
 
-    private Question getRandomQuestions() throws GameException {
-        if (questions.isEmpty()) {
-            isGameFinished = true;
-            throw new GameException("No more Questions");
-        }
-        Random rand = new Random();
+    @Override
+    public void loadQuestions() throws LoadingException {
+        questions = this.load();
+    }
 
+    private Question getRandomQuestions() {
+        Random rand = new Random();
         int n = rand.nextInt(questions.size());
         Question question = questions.get(n);
         questions.remove(n);
@@ -45,13 +48,12 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
     }
 
     @Override
-    public void askQuestion() throws GameException {
+    public Question askQuestion() {
 
         Question question = getRandomQuestions();
         System.out.println(question.getText());
         System.out.println(question.getAnswers());
-        answerQuestion(question);
-
+        return question;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
                 int input = (scanner.nextInt());
                 int answerIndex = input - 1;
 
-                boolean isInputAllowed = AllowedInput.contains(input);
+                boolean isInputAllowed = ALLOWED_Input.contains(input);
                 if (!isInputAllowed) throw new Exception("Input is now allowed");
                 boolean isCorrect = question.getCorrectIndex() == answerIndex;
                 if (isCorrect) {
@@ -76,7 +78,7 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
                 } else {
                     System.out.println("Wrong ❌, Correct answer is: " + question.getCorrectAnswer());
                     wrongTries++;
-                    if (wrongTries == MAX_TRIES) {
+                    if (getWrongTries() == MAX_TRIES) {
                         System.out.println("No more Lives :(");
 
                         isGameFinished = true;
@@ -94,6 +96,11 @@ public class QuizGameImpl extends QuestionsJsonLoader implements QuizGame {
     @Override
     public int getScore() {
         return score;
+    }
+
+    @Override
+    public int getWrongTries() {
+        return wrongTries;
     }
 
     @Override

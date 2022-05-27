@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class QuestionsJsonLoader implements QuestionsLoader {
     @Override
-    public ArrayList<Question> loadQuestions() throws LoadingException {
+    public ArrayList<Question> load() throws LoadingException {
         try {
             Path root = FileSystems.getDefault().getPath("").toAbsolutePath();
             Path jsonPath = Paths.get(root.toString(), "assets", "questions.json");
